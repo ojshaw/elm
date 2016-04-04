@@ -1,0 +1,6 @@
+{
+    "johnpmayer/elm-webgl": "1.0.1",
+    "TheSeamau5/GraphicsEngine": "2.0.0",
+    "johnpmayer/elm-linear-algebra": "2.0.0",
+    "elm-lang/core": "1.1.1"
+}

@@ -1,0 +1,246 @@
+Elm.Life = Elm.Life || {};
+Elm.Life.make = function (_elm) {
+   "use strict";
+   _elm.Life = _elm.Life || {};
+   if (_elm.Life.values)
+   return _elm.Life.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Life",
+   $Basics = Elm.Basics.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm);
+   var find = F2(function (c,xs) {
+      return function () {
+         switch (xs.ctor)
+         {case "::": return _U.eq(c,
+              xs._0) ? 1 : 1 + A2(find,
+              c,
+              xs._1);
+            case "[]": return 0;}
+         _U.badCase($moduleName,
+         "between lines 62 and 65");
+      }();
+   });
+   var $delete = F2(function (c,
+   cs) {
+      return function () {
+         var n = A2(find,c,cs);
+         return A2($Basics._op["++"],
+         A2($List.take,n - 1,cs),
+         A2($List.drop,n,cs));
+      }();
+   });
+   var isAlive = F2(function (c,
+   _v3) {
+      return function () {
+         switch (_v3.ctor)
+         {case "B":
+            return A2($List.member,
+              c,
+              _v3._1);}
+         _U.badCase($moduleName,
+         "on line 42, column 25 to 41");
+      }();
+   });
+   var maybeIf = F2(function (a,
+   b) {
+      return b ? $Maybe.Just(a) : $Maybe.Nothing;
+   });
+   var neighbors = function (c) {
+      return _L.fromArray([]);
+   };
+   var genNeighbors = function (_v7) {
+      return function () {
+         switch (_v7.ctor)
+         {case "_Tuple3":
+            return _L.fromArray([{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2 + 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2 + 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2 + 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 + 1
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2 + 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2 + 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2 + 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1 + 1
+                                 ,_2: _v7._2 + 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1 - 1
+                                 ,_2: _v7._2 - 1}
+                                ,{ctor: "_Tuple3"
+                                 ,_0: _v7._0 - 1
+                                 ,_1: _v7._1
+                                 ,_2: _v7._2 + 1}]);}
+         _U.badCase($moduleName,
+         "between lines 25 and 33");
+      }();
+   };
+   var B = F2(function (a,b) {
+      return {ctor: "B"
+             ,_0: a
+             ,_1: b};
+   });
+   var countNeighbors = F2(function (neighs,
+   _v12) {
+      return function () {
+         switch (_v12.ctor)
+         {case "B": return function () {
+                 switch (neighs.ctor)
+                 {case "::":
+                    return A2($List.member,
+                      neighs._0,
+                      _v12._1) ? 1 + A2(countNeighbors,
+                      neighs._1,
+                      A2(B,
+                      _v12._0,
+                      _v12._1)) : 0 + A2(countNeighbors,
+                      neighs._1,
+                      A2(B,_v12._0,_v12._1));
+                    case "[]": return 0;}
+                 _U.badCase($moduleName,
+                 "between lines 47 and 51");
+              }();}
+         _U.badCase($moduleName,
+         "between lines 47 and 51");
+      }();
+   });
+   var initialBoard = A2(B,
+   0,
+   _L.fromArray([]));
+   var updateGame = function (b) {
+      return A2(B,
+      0,
+      _L.fromArray([]));
+   };
+   var evolve = F2(function (c,
+   _v19) {
+      return function () {
+         switch (_v19.ctor)
+         {case "B": return function () {
+                 var mem = A2($List.member,
+                 c,
+                 _v19._1);
+                 var n = A2(countNeighbors,
+                 genNeighbors(c),
+                 A2(B,_v19._0,_v19._1));
+                 return function () {
+                    switch (mem)
+                    {case true: return _U.cmp(n,
+                         8) > 0 || _U.cmp(n,
+                         1) < 0 ? A2(B,
+                         _v19._0 - 1,
+                         A2($delete,c,_v19._1)) : A2(B,
+                         _v19._0,
+                         _v19._1);}
+                    _U.badCase($moduleName,
+                    "between lines 76 and 83");
+                 }();
+              }();}
+         _U.badCase($moduleName,
+         "between lines 74 and 83");
+      }();
+   });
+   _elm.Life.values = {_op: _op
+                      ,B: B
+                      ,genNeighbors: genNeighbors
+                      ,neighbors: neighbors
+                      ,maybeIf: maybeIf
+                      ,isAlive: isAlive
+                      ,countNeighbors: countNeighbors
+                      ,initialBoard: initialBoard
+                      ,updateGame: updateGame
+                      ,find: find
+                      ,$delete: $delete
+                      ,evolve: evolve};
+   return _elm.Life.values;
+};

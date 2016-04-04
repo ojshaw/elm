@@ -1,0 +1,31 @@
+Elm.Repl = Elm.Repl || {};
+Elm.Repl.make = function (_elm) {
+   "use strict";
+   _elm.Repl = _elm.Repl || {};
+   if (_elm.Repl.values)
+   return _elm.Repl.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Repl",
+   $List = Elm.List.make(_elm);
+   var tsol = {ctor: "_Tuple0"};
+   var a = _L.fromArray([_L.fromArray([{ctor: "_Tuple2"
+                                       ,_0: 0
+                                       ,_1: 0}
+                                      ,{ctor: "_Tuple2",_0: 0,_1: 1}])
+                        ,_L.fromArray([{ctor: "_Tuple2"
+                                       ,_0: 1
+                                       ,_1: 0}
+                                      ,{ctor: "_Tuple2"
+                                       ,_0: 1
+                                       ,_1: 1}])]);
+   var deltron3030 = $List.concat(a);
+   _elm.Repl.values = {_op: _op
+                      ,a: a
+                      ,deltron3030: deltron3030
+                      ,tsol: tsol};
+   return _elm.Repl.values;
+};

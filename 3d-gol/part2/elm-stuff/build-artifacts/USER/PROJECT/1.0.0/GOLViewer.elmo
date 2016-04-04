@@ -1,0 +1,149 @@
+Elm.GOLViewer = Elm.GOLViewer || {};
+Elm.GOLViewer.make = function (_elm) {
+   "use strict";
+   _elm.GOLViewer = _elm.GOLViewer || {};
+   if (_elm.GOLViewer.values)
+   return _elm.GOLViewer.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "GOLViewer",
+   $Basics = Elm.Basics.make(_elm),
+   $Engine = Elm.Engine.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $Math$Matrix4 = Elm.Math.Matrix4.make(_elm),
+   $Math$Vector2 = Elm.Math.Vector2.make(_elm),
+   $Math$Vector3 = Elm.Math.Vector3.make(_elm),
+   $Text = Elm.Text.make(_elm),
+   $Time = Elm.Time.make(_elm),
+   $WebGL = Elm.WebGL.make(_elm);
+   var fragmentShader = {"src": "\n\nprecision mediump float;\nuniform sampler2D texture;\nvarying vec2 vcoord;\n\nvoid main () {\n  gl_FragColor = texture2D(texture, vcoord);\n}\n\n"};
+   var vertexShader = {"src": "\n\nattribute vec3 position;\nattribute vec3 coord;\nuniform mat4 perspective;\nvarying vec2 vcoord;\n\nvoid main () {\n  gl_Position = perspective * vec4(position, 1.0);\n  vcoord = coord.xy;\n}\n\n"};
+   var title = $Text.plainText("The Game of Life in 3D\n");
+   var lives = _L.fromArray([{ctor: "_Tuple3"
+                             ,_0: 0
+                             ,_1: 0
+                             ,_2: 0}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 0
+                             ,_1: 1
+                             ,_2: 0}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 1
+                             ,_1: 0
+                             ,_2: 0}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 0
+                             ,_1: 20
+                             ,_2: 0}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 0
+                             ,_1: 5
+                             ,_2: 5}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 5
+                             ,_1: 5
+                             ,_2: 5}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 1
+                             ,_1: 1
+                             ,_2: 1}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 4
+                             ,_1: 18
+                             ,_2: 4}
+                            ,{ctor: "_Tuple3"
+                             ,_0: -4
+                             ,_1: -18
+                             ,_2: -4}
+                            ,{ctor: "_Tuple3"
+                             ,_0: -18
+                             ,_1: -18
+                             ,_2: -18}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 18
+                             ,_1: 18
+                             ,_2: 18}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 18
+                             ,_1: 18
+                             ,_2: 1}
+                            ,{ctor: "_Tuple3"
+                             ,_0: 18
+                             ,_1: 17
+                             ,_2: 1}]);
+   var cam = _U.replace([["position"
+                         ,A3($Math$Vector3.vec3,
+                         0,
+                         0,
+                         -50)]],
+   $Engine.camera);
+   var vp = {_: {}
+            ,dimensions: {_: {}
+                         ,height: 500.0
+                         ,width: 500.0}};
+   var myCube = _U.replace([["position"
+                            ,A3($Math$Vector3.vec3,0,0,0)]
+                           ,["rotation"
+                            ,A3($Math$Vector3.vec3,0,0,0)]
+                           ,["scale"
+                            ,A3($Math$Vector3.vec3,1,1,1)]],
+   $Engine.cube);
+   var listCubes = function (xs) {
+      return function () {
+         switch (xs.ctor)
+         {case "::": switch (xs._0.ctor)
+              {case "_Tuple3":
+                 return A2($Basics._op["++"],
+                   _L.fromArray([_U.replace([["position"
+                                             ,A3($Math$Vector3.vec3,
+                                             $Basics.toFloat(xs._0._0),
+                                             $Basics.toFloat(xs._0._1),
+                                             $Basics.toFloat(xs._0._2))]],
+                   myCube)]),
+                   listCubes(xs._1));}
+              break;
+            case "[]":
+            return _L.fromArray([]);}
+         _U.badCase($moduleName,
+         "between lines 51 and 55");
+      }();
+   };
+   var myScene = function (ds) {
+      return _U.replace([["camera"
+                         ,cam]
+                        ,["objects",listCubes(ds)]
+                        ,["viewport",vp]],
+      $Engine.scene);
+   };
+   var gol = $Engine.render(myScene(lives));
+   var main = A2($Graphics$Element.flow,
+   $Graphics$Element.down,
+   _L.fromArray([A4($Graphics$Element.container,
+                500,
+                100,
+                $Graphics$Element.midTop,
+                title)
+                ,gol]));
+   var Input = F2(function (a,b) {
+      return {_: {}
+             ,delta: b
+             ,mouse: a};
+   });
+   _elm.GOLViewer.values = {_op: _op
+                           ,Input: Input
+                           ,myCube: myCube
+                           ,vp: vp
+                           ,cam: cam
+                           ,listCubes: listCubes
+                           ,lives: lives
+                           ,myScene: myScene
+                           ,title: title
+                           ,gol: gol
+                           ,main: main
+                           ,vertexShader: vertexShader
+                           ,fragmentShader: fragmentShader};
+   return _elm.GOLViewer.values;
+};
