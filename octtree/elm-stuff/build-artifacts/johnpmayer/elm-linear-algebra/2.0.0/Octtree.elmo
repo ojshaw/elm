@@ -1,0 +1,238 @@
+Elm.Octtree = Elm.Octtree || {};
+Elm.Octtree.make = function (_elm) {
+   "use strict";
+   _elm.Octtree = _elm.Octtree || {};
+   if (_elm.Octtree.values)
+   return _elm.Octtree.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _P = _N.Ports.make(_elm),
+   $moduleName = "Octtree",
+   $Basics = Elm.Basics.make(_elm);
+   var Node = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return {ctor: "Node"
+                                        ,_0: a
+                                        ,_1: b
+                                        ,_2: c
+                                        ,_3: d
+                                        ,_4: e
+                                        ,_5: f
+                                        ,_6: g
+                                        ,_7: h
+                                        ,_8: i
+                                        ,_9: j};
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var Leaf = F2(function (a,b) {
+      return {ctor: "Leaf"
+             ,_0: a
+             ,_1: b};
+   });
+   var Bounded = function (a) {
+      return {_: {}
+             ,boundingBox: a};
+   };
+   var xWidth = function (box) {
+      return box.x.high - box.x.low;
+   };
+   var halfx = function (box) {
+      return xWidth(box) / 2;
+   };
+   var yWidth = function (box) {
+      return box.y.high - box.y.low;
+   };
+   var halfy = function (box) {
+      return yWidth(box) / 2;
+   };
+   var zWidth = function (box) {
+      return box.z.high - box.z.low;
+   };
+   var halfz = function (box) {
+      return zWidth(box) / 2;
+   };
+   var center = function (box) {
+      return {_: {}
+             ,x: box.x.low + halfx(box)
+             ,y: box.y.low + halfy(box)
+             ,z: box.z.low + halfz(box)};
+   };
+   var BoundingCube = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,x: a
+             ,y: b
+             ,z: c};
+   });
+   var Interval = F2(function (a,
+   b) {
+      return {_: {}
+             ,high: b
+             ,low: a};
+   });
+   var boundingCube = F6(function (minx,
+   maxx,
+   miny,
+   maxy,
+   minz,
+   maxz) {
+      return A3(BoundingCube,
+      A2(Interval,minx,maxx),
+      A2(Interval,miny,maxy),
+      A2(Interval,minz,maxz));
+   });
+   var topNE = function (box) {
+      return function () {
+         var minz = box.z.low + halfz(box);
+         var miny = box.y.low + halfy(box);
+         var minx = box.x.low + halfx(box);
+         return A6(boundingCube,
+         minx,
+         box.x.high,
+         miny,
+         box.y.high,
+         minz,
+         box.z.high);
+      }();
+   };
+   var topNW = function (box) {
+      return function () {
+         var minz = box.z.low + halfz(box);
+         var miny = box.y.low + halfy(box);
+         var maxx = box.x.high - halfx(box);
+         return A6(boundingCube,
+         box.x.low,
+         maxx,
+         miny,
+         box.y.high,
+         minz,
+         box.z.high);
+      }();
+   };
+   var topSE = function (box) {
+      return function () {
+         var minz = box.z.low + halfz(box);
+         var maxy = box.y.high - halfy(box);
+         var minx = box.x.low + halfx(box);
+         return A6(boundingCube,
+         minx,
+         box.x.high,
+         box.y.low,
+         maxy,
+         minz,
+         box.z.high);
+      }();
+   };
+   var topSW = function (box) {
+      return function () {
+         var minz = box.z.low + halfz(box);
+         var maxy = box.y.high - halfy(box);
+         var maxx = box.x.high - halfx(box);
+         return A6(boundingCube,
+         box.x.low,
+         maxx,
+         box.y.low,
+         maxy,
+         minz,
+         box.z.high);
+      }();
+   };
+   var bottomNE = function (box) {
+      return function () {
+         var maxz = box.z.high - halfz(box);
+         var miny = box.y.low + halfy(box);
+         var minx = box.x.low + halfx(box);
+         return A6(boundingCube,
+         minx,
+         box.x.high,
+         miny,
+         box.y.high,
+         box.z.low,
+         maxz);
+      }();
+   };
+   var bottomNW = function (box) {
+      return function () {
+         var maxz = box.z.high - halfz(box);
+         var miny = box.y.low + halfy(box);
+         var maxx = box.x.high - halfx(box);
+         return A6(boundingCube,
+         box.x.low,
+         maxx,
+         miny,
+         box.y.high,
+         box.z.low,
+         maxz);
+      }();
+   };
+   var bottomSE = function (box) {
+      return function () {
+         var maxz = box.z.high - halfz(box);
+         var maxy = box.y.high - halfy(box);
+         var minx = box.x.low + halfx(box);
+         return A6(boundingCube,
+         minx,
+         box.x.high,
+         box.y.low,
+         maxy,
+         box.z.low,
+         maxz);
+      }();
+   };
+   var bottomSW = function (box) {
+      return function () {
+         var maxz = box.z.low - halfz(box);
+         var maxy = box.y.high - halfy(box);
+         var maxx = box.x.high - halfx(box);
+         return A6(boundingCube,
+         box.x.low,
+         maxx,
+         box.y.low,
+         maxy,
+         box.z.low,
+         maxz);
+      }();
+   };
+   _elm.Octtree.values = {_op: _op
+                         ,Interval: Interval
+                         ,BoundingCube: BoundingCube
+                         ,boundingCube: boundingCube
+                         ,zWidth: zWidth
+                         ,yWidth: yWidth
+                         ,xWidth: xWidth
+                         ,halfz: halfz
+                         ,halfy: halfy
+                         ,halfx: halfx
+                         ,center: center
+                         ,topNE: topNE
+                         ,topNW: topNW
+                         ,topSE: topSE
+                         ,topSW: topSW
+                         ,bottomNE: bottomNE
+                         ,bottomNW: bottomNW
+                         ,bottomSE: bottomSE
+                         ,bottomSW: bottomSW
+                         ,Bounded: Bounded
+                         ,Leaf: Leaf
+                         ,Node: Node};
+   return _elm.Octtree.values;
+};
